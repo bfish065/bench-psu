@@ -32,6 +32,3 @@ venv/
 Thumbs.db
 desktop.ini
 ~$*
-
-# claude.ai Project instructions (local only)
-project-instructions.md
