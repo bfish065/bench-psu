@@ -63,14 +63,3 @@ Each phase in `docs/scope.md` ends with a gate. When Fish says a phase is done, 
 ## Git
 
 Small commits with plain messages (`docs: inductor calc`, `sim: 5 V load step`). Push after every handoff.
-
-## First session only
-
-Scaffold the repo, then delete this section and commit.
-
-1. Create the folders and files in "Where things live." Keep `README.md` short: one-line description, status ("Phase 1: theory"), the target spec table from `docs/scope.md`, tools (KiCad, LTspice, Python), and a repo map.
-2. Create `docs/decisions.md` and seed it from the "Decisions so far" section of `docs/scope.md`, then replace that section with a one-line pointer to `decisions.md`.
-3. Create `docs/test-log.md` with the values ledger (rows T1–T10, every value cell blank) and an empty "Bench sessions" section.
-4. Create `docs/design.md` with a heading for each Phase 1 gate calculation, and `docs/bom.csv` with just the header row.
-5. Add a `.gitignore` covering KiCad backup, lock, and cache files; LTspice output files; the `.obsidian/` folder; Python caches; and OS junk.
-6. Commit as `scaffold: initial structure` and push.
