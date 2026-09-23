@@ -1,6 +1,6 @@
 # Scope: adjustable bench power supply (TPS54331 buck)
 
-*Status: Phase 0 (setup) · Last updated 2026-09-22*
+*Status: Phase 1 (theory) · Last updated 2026-09-22*
 
 ## Goal
 
@@ -21,7 +21,7 @@ Two principles run through every phase:
 
 ## Target spec (provisional until the Phase 2 gate)
 
-IDs match rows in the values ledger (`docs/test-log.md`).
+IDs match rows in the values ledger ([test-log.md](test-log.md)).
 
 | ID | Quantity | Target | Conditions |
 |---|---|---|---|
@@ -114,7 +114,7 @@ Enclosure (3D-printed), banana jacks, panel meter. Or v2 with adjustable current
 
 ## Open questions
 
-Each answer becomes an entry in `decisions.md`.
+Each answer becomes an entry in [decisions.md](decisions.md).
 
 | # | Question | By | Notes |
 |---|---|---|---|
@@ -160,16 +160,6 @@ Each answer becomes an entry in `decisions.md`.
 - GreatScott! (YouTube): buck-converter basics
 - Tools: KiCad, LTspice, TI WEBENCH Power Designer, PSpice for TI, JLCPCB, Digi-Key
 
-## Decisions so far
+## Decisions
 
-(Moved to `docs/decisions.md` in the first Claude Code session.)
-
-- **2026-09-22 · Project:** adjustable buck bench supply. *Why:* exercises analog circuit analysis end to end: design, simulation, layout, measurement.
-- **2026-09-22 · Input:** 19–20 V laptop brick. *Why:* a first power-electronics project stays low-voltage DC. *Rejected:* mains input.
-- **2026-09-22 · Controller:** TPS54331. *Why:* 3 A / 28 V, cheap, and external compensation forces learning the loop. Package pending (Q1).
-- **2026-09-22 · Simulation:** ideal-switch buck in LTspice plus a part-specific check in WEBENCH or PSpice for TI. *Why:* LTspice doesn't ship TI models, and the generic model teaches the physics.
-- **2026-09-22 · Practice board** before the main board. *Why:* catch footprint and ordering mistakes cheaply.
-- **2026-09-22 · Pot on the PCB,** shaft through the panel. *Why:* the feedback node is high-impedance and noise-sensitive. *Rejected:* wired panel pot.
-- **2026-09-22 · Compensation** via the datasheet procedure; deep loop theory optional. *Why:* control theory not yet taken.
-- **2026-09-22 · Output floor** revised from 0.8 V to ~1 V pending Q2. *Why:* minimum on-time at 19.5 V in.
-- **2026-09-22 · Rev 2 planned** from the start. *Why:* first boards usually need a fix.
+All decisions are logged in [decisions.md](decisions.md).
