@@ -1,6 +1,6 @@
 # Scope: adjustable bench power supply (TPS54331 buck)
 
-*Status: Phase 1 (theory) · Last updated 2026-09-22*
+*Status: Phase 1 (theory) · Last updated 2026-11-10*
 
 ## Goal
 
@@ -118,17 +118,23 @@ Each answer becomes an entry in [decisions.md](decisions.md).
 
 | # | Question | By | Notes |
 |---|---|---|---|
-| Q1 | Package: plain SOIC-8 (D) or PowerPAD (DDA)? | Phase 1 | D is easiest to hand-solder, but third-party data puts the PowerPAD's junction-to-board thermal resistance at less than half of D's (≈ 25 vs ≈ 57 °C/W; confirm in the datasheet). With IC loss on the order of 1 W at 12 V / 3 A, compute junction temperature for both. DDA means soldering the thermal pad: hot air, or a via under the pad soldered from the back. |
-| Q2 | Output floor at 19.5 V in? | Phase 1 | Minimum on-time (up to ~130 ns per third-party data) at 570 kHz caps the duty cycle near 7 %. With the diode drop, the full-load floor lands around 1 V, not the 0.8 V reference. Confirm. |
+| Q1 | Package: plain SOIC-8 (D) or PowerPAD (DDA)? | Phase 1 | D is easiest to hand-solder. Datasheet thermal table (JEDEC test boards): RθJA 116.3 °C/W (D) vs 48.7 °C/W (DDA); RθJB 57.1 °C/W (D) vs 25.5 °C/W (DDA). Datasheet limits: TJ 150 °C max operating, thermal shutdown at 165 °C. With IC loss on the order of 1 W at 12 V / 3 A, compute junction and case temperature for both and compare with T9's 85 °C case limit. DDA means soldering the thermal pad: hot air, or a via under the pad soldered from the back. |
+| Q2 | Output floor at 19.5 V in? | Phase 1 | Minimum on-time sets a minimum duty cycle, so the floor sits above the 0.8 V reference. Datasheet: minimum controllable on-time row lists 105 ns and 130 ns (VIN 12 V, 25 °C; check which is typ and which is max), Fig. 6-5 shows about 100–140 ns over temperature; switching frequency 456 / 570 / 684 kHz min / typ / max. Work the floor at the worst-case corner: maximum on-time, maximum frequency, highest VIN (T5 goes to 21 V), and include the diode drop. |
 | Q3 | Pot wiring that fails *low* | Phase 3 | If the pot sits in the divider's top leg and its wiper opens, VSENSE drops to 0 V and the controller drives the output toward VIN, putting up to ~19 V into whatever's connected. The IC's overvoltage protection won't catch it. Wire it so an open wiper drives the output down. |
-| Q4 | Compensation stable over the whole range | Phase 2 | Loop gain scales with VREF/VOUT, so crossover moves as the knob turns. Design at one end, verify at every T10 point. |
-| Q5 | Input hot-plug protection | Phase 3 | Plugging a brick into ceramic-only input caps can ring to ~2× VIN, past the IC's 28 V rating. Add a bulk electrolytic for damping; consider a TVS. See LT AN88. |
+| Q4 | Compensation stable over the whole range | Phase 2 | Loop gain scales with VREF/VOUT, so crossover moves as the knob turns. Design at one end, verify at every T10 point. Across 1–15 V that gain spreads by about 15×. Tuning at the low-VOUT end is the stable choice, but the loop is then slow at 12–15 V, so T7's ≤ 200 µs recovery may fail there. Decide whether T10 needs relaxing at the ends of the range (a target change, so log it). Datasheet: practical maximum crossover about 25 kHz. |
+| Q5 | Input hot-plug protection | Phase 3 | Plugging a brick into ceramic-only input caps can ring to ~2× VIN, past the IC's 30 V absolute-maximum VIN (datasheet; 28 V is the recommended maximum). Add a bulk electrolytic for damping; consider a TVS. A TVS whose standoff clears the highest brick voltage typically clamps well above 30 V, so check its clamping voltage against 30 V; the electrolytic likely does most of the work. See LT AN88. |
 | Q6 | Catch-diode package | Phase 3 | Worst-case diode loss is at low VOUT and 3 A, where it conducts most of each cycle: ~1.2–1.4 W. SMA packages run too hot there; look at SMB/SMC. Rate it ≥ 40 V and ≥ 3 A. |
 | Q7 | Output capacitors | Phase 3 | Ceramic capacitors lose a large share of their capacitance under DC bias. At 15 V out, use 35–50 V parts and check the derated value on the manufacturer's curve. |
-| Q8 | Inductor saturation | Phase 3 | Saturation current must exceed the IC's maximum current limit, not just 3 A plus ripple. |
+| Q8 | Inductor saturation | Phase 3 | Saturation current must exceed the IC's maximum current limit (datasheet: 5.8 A max at VIN 12 V), not just 3 A plus ripple. |
 | Q9 | Test load for 3 A | Phase 5 | Lab electronic load, power resistors (15 V / 3 A is 45 W), or a cheap DC load module? |
 | Q10 | Brick and connector | Phase 3 | Which brick (≥ 65 W; 15 V × 3 A is 45 W out), and which barrel size; the PCB jack must match. |
 | Q11 | Lab access | Phase 1 | PKI open-lab hours; a bench supply with current limit; a scope with a 20 MHz BW limit and a ground-spring probe tip. |
+| Q12 | Current-limit headroom for T2 | Phase 1 | Datasheet current limit is 3.5 A min, 5.8 A max (VIN 12 V). 3 A plus ~30 % ripple puts the peak inductor current near 3.5 A; the datasheet's own 3.3 V / 3 A example peaks at 3.47 A. A unit near the low end of the limit could clip below 3 A. Options: lower ripple (larger inductor) or derate T2. |
+| Q13 | T9 coverage at the hottest diode point | Phase 1 | T9 tests 12 V / 3 A and 3.3 V / 3 A, but diode loss peaks at the output floor and 3 A (Q6). Add that point to T9? |
+| Q14 | DCM at the 0.3 A load-step points | Phase 2 | A non-synchronous buck goes discontinuous when load current falls below half the inductor ripple. Check whether 0.3 A (T4, T7, T10) starts in DCM at each setpoint; the loop behaves differently there. |
+| Q15 | Sustained output short | Phase 3 | Bench supplies get shorted. The current limit holds 3.5–5.8 A (datasheet), and the catch diode carries it for most of each cycle. Can the diode and inductor survive a sustained short, and is that a requirement? |
+| Q16 | Back-feed from the output | Phase 3 | With a battery or another supply on the output and the brick unplugged, current flows backward through the high-side MOSFET's body diode into VIN. Protect against it? |
+| Q17 | Input reverse polarity | Phase 3 | A wrong-polarity barrel plug. Add reverse-polarity protection, and at what cost in efficiency (T6)? |
 
 ## Measurement notes
 
