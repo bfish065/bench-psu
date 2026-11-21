@@ -20,8 +20,8 @@ D = (VOUT + VD) / (VIN − I·Rds + VD)
 | 1.5 V | | | 0.1012146 |
 | 3.3 V | 0.16923 | 0.19231 | 0.1923077 |
 | 5 V | 0.2564 | 0.27834 | 0.2783401 |
-| 12 V | 0.61538 | | 0.6325911 |
-| 15 V | 0.76923 | | 0.7844130 |
+| 12 V | 0.61538 | 0.63259 | 0.6325911 |
+| 15 V | 0.76923 | 0.78441 | 0.7844130 |
 
 - The chip's smallest duty is 130 ns × 684 kHz = 0.0889 (hand; Python 0.08892). 1 V at 3 A needs 0.0759, below that, so it is out of reach on a worst-case chip. This led to Q2 below.
 - The largest duty, 0.784 at 15 V / 3 A, is under the 0.90 maximum duty.
