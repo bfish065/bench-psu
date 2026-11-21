@@ -38,7 +38,7 @@ IDs match rows in the values ledger ([test-log.md](test-log.md)).
 
 ## Phases and gates
 
-A phase is done when its gate passes, with the numbers recorded in `design.md` or the ledger. Dates assume about 3–4 hours a week.
+A phase is done when its gate passes, with the numbers recorded in `design.md` or the ledger. Dates assume about 3–4 hours a week. Phases 2–6 were rescheduled on 2026-11-21 (D16) after Phase 1 ran about six weeks long.
 
 ### Phase 0: Setup (Sep 22 – 27)
 
@@ -62,22 +62,26 @@ Repo, seed files, Claude Code scaffold, claude.ai Project.
 
 **Gate passed 2026-11-21.** Results in [design.md](design.md#phase-1-gate-calculations); decisions D10–D15.
 
-### Phase 2: Simulate (Oct 12 – 18)
+### Phase 2: Simulate (Nov 22 – Dec 6)
 
 - Build an ideal-switch buck in LTspice. LTspice ships Analog Devices models, not TI's, so the generic model is the teaching tool.
 - Then check the part-specific design in TI WEBENCH Power Designer or PSpice for TI.
 - Compensation: follow the datasheet procedure (Q4).
-- Do the practice board this week (below).
+- Do the practice board alongside it (below).
 
 **Gate:** clean startup (T8); ripple under T3; load step meets T7 at 5 V; stable at every T10 point.
 
-### Practice board (order by Oct 18)
+### Practice board (order by Dec 6)
 
 Push a trivial board, such as a TPS54331 breakout, all the way through KiCad → JLCPCB. About two hours of work. It catches footprint, silkscreen, and ordering mistakes on a board you don't care about.
 
 **Gate:** it arrives, and real parts fit its footprints.
 
-### Phase 3: Schematic + BOM (Oct 19 – 30)
+### Finals pause (about Dec 7 – 18)
+
+No project work planned. Exact dates are Q24.
+
+### Phase 3: Schematic + BOM (Dec 19 – 31, winter break)
 
 - KiCad schematic from the Phase 1–2 values.
 - Resolve Q3, Q5–Q8, and Q10 before finalizing the BOM.
@@ -85,32 +89,30 @@ Push a trivial board, such as a TPS54331 breakout, all the way through KiCad →
 
 **Gate:** ERC clean; every part in stock at Digi-Key; BOM for three builds within budget.
 
-### Phase 4: Layout (Oct 31 – Nov 9)
+### Phase 4: Layout (Jan 1 – 14, 2027)
 
 Reproduce the datasheet's layout example faithfully; don't invent.
 
 - Read TI's *Five steps to a great PCB layout for a step-down converter* first.
 - Keep the hot loop (input cap → high-side switch → diode) tight; solid ground pour; feedback trace and pot far from the switch node.
 
-**Gate:** DRC clean; one outside review (r/PrintedCircuitBoard) addressed. **Order by Mon Nov 9; hard deadline Fri Nov 13**, so boards arrive before Thanksgiving break.
+**Gate:** DRC clean; one outside review (r/PrintedCircuitBoard) addressed. **Order boards and parts by Thu Jan 14, 2027.**
 
-### Phase 5: Order + assemble (Nov 9 – 24)
+### Phase 5: Order + assemble (about Jan 25 – Feb 7, 2027, once boards arrive)
 
 - JLCPCB with expedited shipping; check import fees at checkout. Parts for three builds from Digi-Key, because something will smoke.
 - Build unit 1 alone first.
 
 **Gate:** unit 1 assembled; no short from VIN or VOUT to GND.
 
-If boards slip past the break, assemble Nov 30 and compress Phase 6.
-
-### Phase 6: Bring-up + characterize (Nov 30 – Dec 11, before finals)
+### Phase 6: Bring-up + characterize (Feb 8 – 28, 2027)
 
 - First power-up from a current-limited bench supply set low, no load. The brick comes after.
 - Measure every T-row; save ripple and load-step captures to `media/`.
 
 **Gate:** ledger complete for T1–T10, each pass/fail with board ID; README results filled in.
 
-### Stretch (winter break)
+### Stretch (after Phase 6)
 
 Enclosure (3D-printed), banana jacks, panel meter. Or v2 with adjustable current limiting, making it a true CC/CV supply. Rev 2 of the board if rev 1 needs fixes.
 
@@ -138,6 +140,7 @@ Each answer becomes an entry in [decisions.md](decisions.md).
 | Q21 | Should T3 cover the whole output range? | Phase 2 | T3 is defined at 12 V / 3 A, but ripple current peaks at VIN/2 = 9.75 V. The 4.7 µF ripple sizing was done at 9.75 V (48.70 mV p-p, Python), so the design covers it; the target text doesn't. Widen T3's conditions? |
 | Q22 | Why is T3 50 mV? | Phase 2 | T3's < 50 mV p-p has no recorded reason. Log one, or change it, before the Phase 2 gate makes the spec final. |
 | Q23 | Load-step capacitance at the output floor | Phase 2 | T7's 5 % at the 1.5 V floor (T10) allows a 75 mV dip, which by the rule-of-thumb estimate needs about 144 µF, versus about 43 µF at 5 V (D14). Options: more ceramics, a bulk polymer cap, or relaxing T10's deviation limit at the floor (a target change). Ties to Q4. |
+| Q24 | Exact finals and winter-break dates; internship application deadlines | Phase 2 | The D16 schedule assumes finals about Dec 7 – 18 and break from Dec 19. Application deadlines decide when README results need to be in. |
 
 ## Measurement notes
 
