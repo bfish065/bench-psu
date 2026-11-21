@@ -2,7 +2,7 @@
 
 A single-channel adjustable bench power supply: a TI TPS54331 non-synchronous buck converter on a custom 2-layer PCB, powered by a 19–20 V laptop brick.
 
-**Status:** Phase 1: theory
+**Status:** Phase 2: simulation (Phase 1 theory gate passed 2026-11-21)
 
 ## Target spec
 
@@ -10,7 +10,7 @@ Provisional until the Phase 2 (simulation) gate. Full plan in [docs/scope.md](do
 
 | ID | Quantity | Target | Conditions |
 |---|---|---|---|
-| T1 | Output range | ~1 V to 15 V | VIN 19.5 V |
+| T1 | Output range | 1.5 V to 15 V | VIN 19.5 V |
 | T2 | Output current | 3 A continuous | across T1, within T9 |
 | T3 | Output ripple | < 50 mV p-p | 12 V / 3 A; 20 MHz BW limit; ground-spring probe at the output cap |
 | T4 | Load regulation | ΔVOUT (DC mean) ≤ 2 % of setpoint | 0.3 → 3 A, at 5 V and 12 V |
