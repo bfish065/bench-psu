@@ -113,3 +113,10 @@ Lab access confirmed. Answers Q11.
 
 - *Why:* Fish has access to the lab's bench equipment for Phase 6.
 - *Rejected:* none recorded.
+
+### D16 · 2026-11-21 · Revised schedule
+
+Reschedule Phases 2–6 and the practice board: Phase 2 Nov 22 – Dec 6; practice board ordered by Dec 6; finals pause about Dec 7 – 18; Phase 3 Dec 19 – 31; Phase 4 Jan 1 – 14, 2027, boards and parts ordered by Jan 14; Phase 5 about Jan 25 – Feb 7; Phase 6 Feb 8 – 28. Still about 3–4 hours a week.
+
+- *Why:* Phase 1 passed 2026-11-21, about six weeks after its Oct 11 date, so the Nov 13 board-order deadline had already passed. Schematic and layout move into winter break, and bring-up moves after it.
+- *Rejected:* keeping the old dates (already past).
